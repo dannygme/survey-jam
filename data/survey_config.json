@@ -1,0 +1,60 @@
+{
+  "survey_title": "Q2 Employee Engagement Survey",
+  "survey_description": "Your responses are anonymous. This takes about 3 minutes.",
+  "created_at": "2026-03-19T10:00:00Z",
+  "questions": [
+    {
+      "number": 1,
+      "text": "I feel engaged and motivated by my daily work responsibilities.",
+      "type": "likert",
+      "label": "Engagement & motivation",
+      "required": true
+    },
+    {
+      "number": 2,
+      "text": "I receive useful feedback that helps me grow professionally.",
+      "type": "likert",
+      "label": "Feedback quality",
+      "required": true
+    },
+    {
+      "number": 3,
+      "text": "My workload is manageable and sustainable.",
+      "type": "likert",
+      "label": "Workload manageability",
+      "required": true
+    },
+    {
+      "number": 4,
+      "text": "My contributions are recognized and appreciated.",
+      "type": "likert",
+      "label": "Recognition",
+      "required": true
+    },
+    {
+      "number": 5,
+      "text": "What is one specific change that would most improve your engagement or satisfaction?",
+      "type": "freetext",
+      "label": "Improvement suggestion",
+      "required": true
+    },
+    {
+      "number": 6,
+      "text": "Any additional comments or suggestions?",
+      "type": "freetext",
+      "label": "Open comments",
+      "required": false
+    }
+  ],
+  "likert_scale": {
+    "min": 1,
+    "max": 5,
+    "labels": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Neutral",
+      "4": "Agree",
+      "5": "Strongly agree"
+    }
+  }
+}

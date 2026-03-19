@@ -1,0 +1,169 @@
+"""
+pages/2_Respond.py
+------------------
+Respondent-facing survey form. Reads survey config from the URL
+parameter ?survey=... so no server storage is needed.
+"""
+
+import base64
+import csv
+import io
+import json
+import sys
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+
+import streamlit as st
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from utils.styles import apply_global_styles
+from scripts.config import make_empty_config, full_question_text
+
+st.set_page_config(page_title="Survey — Survey Studio", layout="centered")
+apply_global_styles()
+
+
+# ── Read config from URL param ────────────────────────────────────────────────
+def _decode_config(param: str) -> dict | None:
+    try:
+        raw = base64.urlsafe_b64decode(param.encode()).decode()
+        return json.loads(raw)
+    except Exception:
+        return None
+
+
+params = st.query_params
+survey_param = params.get("survey", None)
+
+if survey_param:
+    if "cfg" not in st.session_state or st.session_state.get("cfg_source") != survey_param:
+        decoded = _decode_config(survey_param)
+        if decoded:
+            st.session_state.cfg = decoded
+            st.session_state.cfg_source = survey_param
+        else:
+            st.error("The survey link appears to be invalid or corrupted.")
+            st.stop()
+
+cfg = st.session_state.get("cfg")
+
+if not cfg or not cfg.get("questions"):
+    st.info("No survey loaded. Ask your survey creator for the correct link, or go to the Build page to create one.")
+    st.stop()
+
+if "responses" not in st.session_state:
+    st.session_state.responses = []
+
+scale = cfg["likert_scale"]
+likert_options = [scale["labels"][str(k)] for k in range(scale["min"], scale["max"] + 1)]
+label_to_score = {v: str(k) for k, v in scale["labels"].items()}
+
+
+def _build_csv(responses: list[dict]) -> str:
+    output = io.StringIO()
+    writer = csv.DictWriter(
+        output,
+        fieldnames=["respondent_id", "timestamp", "question", "response"]
+    )
+    writer.writeheader()
+    writer.writerows(responses)
+    return output.getvalue()
+
+
+# ── Thank-you screen ──────────────────────────────────────────────────────────
+if st.session_state.get("just_submitted"):
+    st.session_state.just_submitted = False
+    st.title("Thank you!")
+    st.success("Your response has been recorded.")
+    n = len({r["respondent_id"] for r in st.session_state.responses})
+    st.caption(f"{n} response(s) collected this session.")
+    if st.button("Submit another response"):
+        st.rerun()
+    st.stop()
+
+# ── Survey form ───────────────────────────────────────────────────────────────
+st.title(cfg["survey_title"] or "Survey")
+if cfg.get("survey_description"):
+    st.info(cfg["survey_description"])
+st.divider()
+
+answers: dict[int, str] = {}
+errors: list[str] = []
+
+with st.form("survey_form", border=False):
+    for q in cfg["questions"]:
+        suffix = " *" if q.get("required") else " (optional)"
+        st.markdown(f"**{q['number']}.** {q['text']}{suffix}")
+
+        if q["type"] == "likert":
+            chosen = st.radio(
+                "", options=["— select —"] + likert_options,
+                key=f"q_{q['number']}",
+                label_visibility="collapsed",
+                horizontal=True,
+            )
+            answers[q["number"]] = chosen
+        else:
+            text = st.text_area(
+                "", key=f"q_{q['number']}", height=100,
+                label_visibility="collapsed",
+                placeholder="Type your answer here…",
+            )
+            answers[q["number"]] = text.strip()
+
+        st.divider()
+
+    submitted = st.form_submit_button("Submit", type="primary", use_container_width=True)
+
+if submitted:
+    for q in cfg["questions"]:
+        if not q.get("required"):
+            continue
+        val = answers.get(q["number"], "")
+        if q["type"] == "likert" and val == "— select —":
+            errors.append(f"Q{q['number']} requires a selection.")
+        elif q["type"] == "freetext" and not val:
+            errors.append(f"Q{q['number']} requires a written answer.")
+
+    if errors:
+        for e in errors:
+            st.warning(e)
+    else:
+        respondent_id = f"resp_{uuid.uuid4().hex[:8]}"
+        timestamp = datetime.now(tz=timezone.utc).isoformat()
+        for q in cfg["questions"]:
+            val = answers[q["number"]]
+            if q["type"] == "likert":
+                if val == "— select —":
+                    continue
+                stored = label_to_score.get(val, val)
+            else:
+                if not val:
+                    continue
+                stored = val
+            st.session_state.responses.append({
+                "respondent_id": respondent_id,
+                "timestamp": timestamp,
+                "question": full_question_text(q),
+                "response": stored,
+            })
+        st.session_state.just_submitted = True
+        st.rerun()
+
+# ── Creator download section ──────────────────────────────────────────────────
+st.divider()
+with st.expander("Survey creator: download responses"):
+    n = len({r["respondent_id"] for r in st.session_state.responses})
+    st.caption(f"{n} response(s) collected this session.")
+    if st.session_state.responses:
+        st.download_button(
+            "Download responses CSV",
+            data=_build_csv(st.session_state.responses),
+            file_name="survey_responses.csv",
+            mime="text/csv",
+            use_container_width=True,
+        )
+        st.caption("Upload this file on the Analyze page to see charts and themes.")
+    else:
+        st.info("No responses yet.")
