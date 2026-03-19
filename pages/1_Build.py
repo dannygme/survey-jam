@@ -26,7 +26,6 @@ if "cfg" not in st.session_state:
 
 cfg = st.session_state.cfg
 
-
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def _renumber():
     for i, q in enumerate(cfg["questions"], start=1):
@@ -111,22 +110,30 @@ with col_left:
             with ctrl:
                 c1, c2, c3 = st.columns(3)
                 if c1.button("↑", key=f"up_{idx}", disabled=idx == 0):
-                    _move(idx, -1); st.rerun()
+                    _move(idx, -1)
+                    st.rerun()
                 if c2.button("↓", key=f"dn_{idx}", disabled=idx == len(qs) - 1):
-                    _move(idx, 1); st.rerun()
+                    _move(idx, 1)
+                    st.rerun()
                 if c3.button("✕", key=f"del_{idx}"):
-                    qs.pop(idx); _renumber(); st.rerun()
+                    qs.pop(idx)
+                    _renumber()
+                    st.rerun()
 
             q["text"] = st.text_area(
-                "Question text", value=q["text"],
-                key=f"text_{idx}", height=72, label_visibility="collapsed",
+                "Question text",
+                value=q["text"],
+                key=f"text_{idx}",
+                height=72,
+                label_visibility="collapsed",
             )
             la, ty, re = st.columns([3, 2, 1])
             q["label"] = la.text_input(
                 "Short label", value=q["label"], key=f"label_{idx}"
             )
             q["type"] = ty.selectbox(
-                "Type", options=["likert", "freetext"],
+                "Type",
+                options=["likert", "freetext"],
                 index=0 if q["type"] == "likert" else 1,
                 key=f"type_{idx}",
             )
@@ -138,14 +145,22 @@ with col_left:
     a1, a2 = st.columns(2)
     if a1.button("+ Likert question", use_container_width=True):
         qs.append({
-            "number": len(qs) + 1, "text": "New question…",
-            "type": "likert", "label": f"Q{len(qs)+1}", "required": True,
-        }); st.rerun()
+            "number": len(qs) + 1,
+            "text": "New question…",
+            "type": "likert",
+            "label": f"Q{len(qs)+1}",
+            "required": True,
+        })
+        st.rerun()
     if a2.button("+ Free-text question", use_container_width=True):
         qs.append({
-            "number": len(qs) + 1, "text": "New open-ended question…",
-            "type": "freetext", "label": f"Open Q{len(qs)+1}", "required": False,
-        }); st.rerun()
+            "number": len(qs) + 1,
+            "text": "New open-ended question…",
+            "type": "freetext",
+            "label": f"Open Q{len(qs)+1}",
+            "required": False,
+        })
+        st.rerun()
 
 with col_right:
     st.subheader("Preview")
@@ -163,21 +178,25 @@ with col_right:
             st.markdown(f"**{q['number']}.** {q['text']}{suffix}")
 
             if q["type"] == "likert":
-                n = len(options)
-                col_ratios = [1.5] + [1] * (n - 2) + [1.5] if n >= 2 else [1] * n
-                cols = st.columns(col_ratios)
-                for col, label in zip(cols, options):
-                    col.markdown(
-                        f"""<div style='text-align:center; font-size:13px;
-                            line-height:1.2; padding:4px 2px;
-                            word-break:break-word; white-space:normal;
-                            overflow:visible;'>
-                            ○<br>{label}</div>""",
-                        unsafe_allow_html=True,
-                    )
+                # Flexbox container for Likert options
+                options_html = "".join(
+                    f"""
+                    <div style='flex:1; min-width:0; text-align:center; font-size:13px;
+                                line-height:1.2; padding:4px 2px; word-break:break-word;'>
+                        ○<br>{label}
+                    </div>
+                    """
+                    for label in options
+                )
+                st.markdown(
+                    f"<div style='display:flex; gap:8px;'>{options_html}</div>",
+                    unsafe_allow_html=True,
+                )
             else:
                 st.text_area(
-                    "", key=f"prev_ft_{q['number']}", height=68,
+                    "",
+                    key=f"prev_ft_{q['number']}",
+                    height=68,
                     label_visibility="collapsed",
                     placeholder="Type your answer here…",
                 )
