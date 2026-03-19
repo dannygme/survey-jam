@@ -30,7 +30,6 @@ cfg = st.session_state.cfg
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 def _ensure_ids():
-    """Backfill IDs for any questions loaded from older session files."""
     for q in cfg["questions"]:
         if "id" not in q:
             q["id"] = str(uuid.uuid4())
@@ -60,9 +59,9 @@ def _get_app_base_url() -> str:
         headers = ctx.headers if hasattr(ctx, "headers") else {}
         host = headers.get("host", "localhost:8501")
         proto = "https" if "streamlit.app" in host else "http"
-        return f"{proto}://{host}"
+        return f"{proto}://{host}/Respond"
     except Exception:
-        return "http://localhost:8501"
+        return "http://localhost:8501/Respond"
 
 
 _ensure_ids()
@@ -216,7 +215,7 @@ with col_right:
     else:
         cfg_param = _config_to_url_param(cfg)
         base = _get_app_base_url()
-        share_url = f"{base}/?survey={cfg_param}"
+        share_url = f"{base}?survey={cfg_param}"
         st.text_area(
             "Copy this link and send it to respondents",
             value=share_url,
