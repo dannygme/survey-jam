@@ -155,13 +155,15 @@ with col_right:
             st.caption(cfg["survey_description"])
         st.divider()
         scale_labels = cfg["likert_scale"]["labels"]
-        options = [f"{k} – {v}" for k, v in sorted(scale_labels.items())]
+        options = [v for k, v in sorted(scale_labels.items())]
+        captions = [k for k in sorted(scale_labels.keys())]
         for q in cfg["questions"]:
             suffix = " *" if q.get("required") else " (optional)"
             st.markdown(f"**{q['number']}.** {q['text']}{suffix}")
             if q["type"] == "likert":
                 st.radio(
                     "", options=options,
+                    captions=captions,
                     key=f"prev_{q['number']}",
                     label_visibility="collapsed",
                 )

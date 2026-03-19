@@ -156,5 +156,15 @@ def apply_global_styles():
     ::-webkit-scrollbar-track { background: #0a0a0f; }
     ::-webkit-scrollbar-thumb { background: rgba(0,245,212,0.2); border-radius: 2px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(0,245,212,0.4); }
+
+    div[role="radiogroup"] label {
+        white-space: normal !important;
+        line-height: 1.3;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90px;
+    }
     </style>
     """, unsafe_allow_html=True)
