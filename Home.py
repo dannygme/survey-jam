@@ -21,7 +21,7 @@ st.set_page_config(
 apply_global_styles()
 
 st.title("Survey Jam")
-st.caption("Build, share, and analyze surveys — your data stays yours.")
+st.caption("Build, share, and analyze surveys. Your data stays yours.")
 st.divider()
 
 col1, col2, col3 = st.columns(3)
