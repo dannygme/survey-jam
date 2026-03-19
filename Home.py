@@ -20,7 +20,7 @@ st.set_page_config(
 
 # ── Survey link redirect ──────────────────────────────────────────────────────
 if "survey" in st.query_params:
-    st.switch_page("pages/2_Respond.py")
+    st.switch_page("Respond")
 
 apply_global_styles()
 
