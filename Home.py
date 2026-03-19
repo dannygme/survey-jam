@@ -18,10 +18,6 @@ st.set_page_config(
     layout="wide",
 )
 
-# ── Survey link redirect ──────────────────────────────────────────────────────
-if "survey" in st.query_params:
-    st.switch_page("Respond")
-
 apply_global_styles()
 
 st.title("Survey Jam")
@@ -57,7 +53,8 @@ for reporting.
 st.divider()
 
 st.markdown("""
-<div style='font-size:12px; color:#334155; text-align:center; letter-spacing:0.06em; text-transform:uppercase;'>
+<div style='font-size:12px; color:#334155; text-align:center;
+letter-spacing:0.06em; text-transform:uppercase;'>
 No database · No accounts · No data leaves your browser
 </div>
 """, unsafe_allow_html=True)
