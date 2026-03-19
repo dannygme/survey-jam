@@ -38,7 +38,7 @@ with col2:
     st.markdown("#### 02 — Share")
     st.markdown("""
 Copy the shareable link from the Build page and send it to respondents.
-They open it in any browser — no account needed. Download the collected
+They open it in any browser. No account needed. Download the collected
 responses as a CSV when you're ready.
     """)
 
