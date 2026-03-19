@@ -12,15 +12,20 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).parent))
 from utils.styles import apply_global_styles
 
+# ── Survey link redirect ──────────────────────────────────────────────────────
+# If someone opens the app with ?survey=... redirect straight to the form
+if "survey" in st.query_params:
+    st.switch_page("pages/2_Respond.py")
+
 st.set_page_config(
-    page_title="Survey Jam",
+    page_title="Survey Studio",
     page_icon=None,
     layout="wide",
 )
 apply_global_styles()
 
-st.title("Survey Jam")
-st.caption("Build, share, and analyze surveys. Your data stays yours.")
+st.title("Survey Studio")
+st.caption("Build, share, and analyze surveys — your data stays yours.")
 st.divider()
 
 col1, col2, col3 = st.columns(3)
@@ -37,7 +42,7 @@ with col2:
     st.markdown("#### 02 — Share")
     st.markdown("""
 Copy the shareable link from the Build page and send it to respondents.
-They open it in any browser. No account needed. Download the collected
+They open it in any browser — no account needed. Download the collected
 responses as a CSV when you're ready.
     """)
 
