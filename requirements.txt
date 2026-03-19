@@ -1,21 +1,8 @@
-# ── Core pipeline ─────────────────────────────────────────────────────────────
 pandas>=2.0
 numpy>=1.26
-
-# ── Dashboard ─────────────────────────────────────────────────────────────────
 streamlit>=1.33
 plotly>=5.20
-
-# ── NLP ───────────────────────────────────────────────────────────────────────
 scikit-learn>=1.4
 transformers>=4.40
-# CPU-only torch — remove the --index-url flag if you have a CUDA GPU:
-# torch>=2.2  (install separately with: pip install torch --index-url https://download.pytorch.org/whl/cpu)
-
-# ── Optional: Google Forms fetch ──────────────────────────────────────────────
-# gspread>=6.0
-# google-auth>=2.29
-# python-dateutil>=2.9
-
-# ── Optional: sample data generation ─────────────────────────────────────────
-# (numpy already listed above; no extra deps needed)
+torch>=2.2
+python-dateutil>=2.9

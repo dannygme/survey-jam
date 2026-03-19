@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from utils.styles import apply_global_styles
 from scripts.config import save_config, make_empty_config, full_question_text
 
-st.set_page_config(page_title="Build — Survey Studio", layout="wide")
+st.set_page_config(page_title="Build — Survey Jam", layout="wide")
 apply_global_styles()
 
 # ── Session state bootstrap ───────────────────────────────────────────────────
@@ -160,12 +160,17 @@ with col_right:
             suffix = " *" if q.get("required") else " (optional)"
             st.markdown(f"**{q['number']}.** {q['text']}{suffix}")
             if q["type"] == "likert":
-                st.radio("", options=options, key=f"prev_{q['number']}",
-                         label_visibility="collapsed", horizontal=True)
+                st.radio(
+                    "", options=options,
+                    key=f"prev_{q['number']}",
+                    label_visibility="collapsed",
+                )
             else:
-                st.text_area("", key=f"prev_ft_{q['number']}", height=68,
-                             label_visibility="collapsed",
-                             placeholder="Type your answer here…")
+                st.text_area(
+                    "", key=f"prev_ft_{q['number']}", height=68,
+                    label_visibility="collapsed",
+                    placeholder="Type your answer here…",
+                )
             st.divider()
 
     st.subheader("Share with respondents")
