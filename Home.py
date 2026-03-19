@@ -12,19 +12,19 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).parent))
 from utils.styles import apply_global_styles
 
-# ── Survey link redirect ──────────────────────────────────────────────────────
-# If someone opens the app with ?survey=... redirect straight to the form
-if "survey" in st.query_params:
-    st.switch_page("pages/2_Respond.py")
-
 st.set_page_config(
-    page_title="Survey Studio",
+    page_title="Survey Jam",
     page_icon=None,
     layout="wide",
 )
+
+# ── Survey link redirect ──────────────────────────────────────────────────────
+if "survey" in st.query_params:
+    st.switch_page("pages/2_Respond.py")
+
 apply_global_styles()
 
-st.title("Survey Studio")
+st.title("Survey Jam")
 st.caption("Build, share, and analyze surveys — your data stays yours.")
 st.divider()
 
