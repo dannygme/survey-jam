@@ -216,7 +216,7 @@ with col_right:
     else:
         cfg_param = _config_to_url_param(cfg)
         base = _get_app_base_url()
-        share_url = f"{base}/2_Respond?survey={cfg_param}"
+        share_url = f"{base}/Respond?survey={cfg_param}"
         st.text_area(
             "Copy this link and send it to respondents",
             value=share_url,
