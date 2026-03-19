@@ -163,13 +163,16 @@ with col_right:
             st.markdown(f"**{q['number']}.** {q['text']}{suffix}")
 
             if q["type"] == "likert":
-                cols = st.columns(len(options))
+                n = len(options)
+                col_ratios = [1.5] + [1] * (n - 2) + [1.5] if n >= 2 else [1] * n
+                cols = st.columns(col_ratios)
                 for col, label in zip(cols, options):
                     col.markdown(
-                        f"<div style='text-align:center; font-size:13px; "
-                        f"line-height:1.4; padding:4px 2px; "
-                        f"word-break:break-word; color:#94a3b8;'>"
-                        f"○<br>{label}</div>",
+                        f"""<div style='text-align:center; font-size:13px;
+                            line-height:1.2; padding:4px 2px;
+                            word-break:break-word; white-space:normal;
+                            overflow:visible;'>
+                            ○<br>{label}</div>""",
                         unsafe_allow_html=True,
                     )
             else:
