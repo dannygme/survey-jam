@@ -1,6 +1,6 @@
 # Survey Jam
 
-A lightweight, open-source survey platform. Build custom surveys, collect responses via shareable link, and instantly visualize results — no database, no accounts, no data leaves your hands.
+A lightweight, open-source survey platform. Build custom surveys, collect responses via shareable link, and instantly visualize results; no database, no accounts, no data leaves your hands.
 
 **[Try the live app →](https://survey-jam.streamlit.app)**
 
