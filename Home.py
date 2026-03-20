@@ -123,6 +123,7 @@ with col2:
     components.html(flap_html("02", "SHARE", 350), height=36)
     st.markdown("Send the downloaded file to respondents via email, Slack, or any channel. They fill it in and send it back. No app access needed.")
     st.code(DOCUMENT, language=None)
+    st.markdown("<div style='height:38px'></div>", unsafe_allow_html=True)
 
 with col3:
     components.html(flap_html("03", "ANALYZE", 700), height=36)
