@@ -62,7 +62,7 @@ const iv=setInterval(()=>{
 st.markdown(
     "<div style='text-align:center; color:#475569; font-size:0.95rem; "
     "letter-spacing:0.04em; margin-bottom:1rem;'>"
-    "Build, share, and analyze surveys — your data stays yours."
+    "Build, share, and analyze surveys. Your data stays yours."
     "</div>",
     unsafe_allow_html=True
 )
