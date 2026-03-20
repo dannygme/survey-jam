@@ -67,6 +67,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
+
 col1, col2, col3 = st.columns(3)
 
 HAMMER = """\
