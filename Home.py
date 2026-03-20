@@ -26,15 +26,16 @@ st.divider()
 col1, col2, col3 = st.columns(3)
 
 HAMMER = """\
-          ██▒▒░░██
-          ██▒▒████
-            ██▒▒▒▒██
-            ██▒▒▓▓████
-          ██▒▒████▒▒░░██
-        ██▒▒██    ██▒▒██
-      ██▒▒██        ██
-    ██▒▒██
-    ████
+        ████
+      ██▒▒░░██
+        ██▒▒████
+          ██▒▒▒▒██
+          ██▒▒▓▓████
+        ██▒▒████▒▒░░██
+      ██▒▒██    ██▒▒██
+    ██▒▒██        ██
+  ██▒▒██
+  ████
 """
 
 DOCUMENT = """\
@@ -67,6 +68,7 @@ CARD_HEIGHT = 420
 def card_html(num, word, delay_ms, description, ascii_art):
     escaped = ascii_art.replace("\\", "\\\\").replace("`", "\\`")
     return f"""
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
   body {{ margin:0; background:transparent; }}
   .card {{
@@ -76,7 +78,7 @@ def card_html(num, word, delay_ms, description, ascii_art):
     align-items: center;
   }}
   .step-header {{
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 1.05rem;
     font-weight: 600;
     color: #00f5d4;
@@ -113,7 +115,8 @@ def card_html(num, word, delay_ms, description, ascii_art):
   }}
   .ascii {{
     display: inline-block;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Courier New', monospace;
+    font-variant-ligatures: none;
     font-size: 0.78rem;
     line-height: 1.4;
     color: #00f5d4;
