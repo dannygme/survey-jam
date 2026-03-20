@@ -157,6 +157,15 @@ def apply_global_styles():
     ::-webkit-scrollbar-thumb { background: rgba(0,245,212,0.2); border-radius: 2px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(0,245,212,0.4); }
 
+    /* Center code blocks used for ASCII art on home page */
+    pre {
+        text-align: center !important;
+        background: transparent !important;
+        border: 1px solid rgba(0,245,212,0.08) !important;
+        border-radius: 8px !important;
+    }
+    code { background: transparent !important; }
+
     div[role="radiogroup"] label {
         white-space: normal !important;
         line-height: 1.3;
