@@ -21,11 +21,6 @@ st.set_page_config(
 
 apply_global_styles()
 
-<<<<<<< HEAD
-=======
-st.title("Survey Jam")
-st.caption("Build, share, and analyze surveys. Your data stays yours.")
->>>>>>> 8f2a0c7bedd337044b7118e2572924637b376f5d
 st.divider()
 
 # ── Three columns ─────────────────────────────────────────────────────────────
@@ -114,7 +109,6 @@ const iv=setInterval(()=>{{
         st.switch_page("pages/1_Build.py")
 
 with col2:
-<<<<<<< HEAD
     components.html(f"""
 <style>
   body {{ margin:0; background:transparent; }}
@@ -156,14 +150,6 @@ setTimeout(()=>{{
 """, height=36)
     st.markdown("Send the downloaded file to respondents via email, Slack, or any channel. They fill it in and send it back. No app access needed.")
     st.code(DOCUMENT, language=None)
-=======
-    st.markdown("#### 02 — Share")
-    st.markdown("""
-Copy the shareable link from the Build page and send it to respondents.
-They open it in any browser. No account needed. Download the collected
-responses as a CSV when you're ready.
-    """)
->>>>>>> 8f2a0c7bedd337044b7118e2572924637b376f5d
 
 with col3:
     components.html(f"""
@@ -215,10 +201,6 @@ st.divider()
 st.markdown("""
 <div style='font-size:12px; color:#334155; text-align:center;
 letter-spacing:0.06em; text-transform:uppercase;'>
-<<<<<<< HEAD
 No database · No accounts · No data leaves your hands
-=======
-No database · No accounts · No data leaves your browser
->>>>>>> 8f2a0c7bedd337044b7118e2572924637b376f5d
 </div>
 """, unsafe_allow_html=True)
