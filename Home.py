@@ -78,7 +78,6 @@ def card_html(num, word, delay_ms, description, ascii_art):
     display: flex;
     flex-direction: column;
     height: {CARD_HEIGHT}px;
-    align-items: center;
   }}
   .step-header {{
     font-family: 'JetBrains Mono', 'Courier New', monospace;
@@ -87,7 +86,6 @@ def card_html(num, word, delay_ms, description, ascii_art):
     color: #00f5d4;
     letter-spacing: 0.04em;
     margin-bottom: 8px;
-    width: 100%;
   }}
   .flap {{
     font-family: 'Inter', sans-serif;
@@ -103,34 +101,29 @@ def card_html(num, word, delay_ms, description, ascii_art):
     color: #94a3b8;
     line-height: 1.6;
     margin-bottom: 12px;
-    width: 100%;
-  }}
-  .ascii-wrap {{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    flex-grow: 1;
-    background: rgba(0,245,212,0.03);
-    border: 1px solid rgba(0,245,212,0.08);
-    border-radius: 8px;
-    padding: 12px 8px;
   }}
   .ascii {{
-    display: inline-block;
+    flex-grow: 1;
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 0.78rem;
     line-height: 1.4;
     color: #00f5d4;
     white-space: pre;
-    text-align: left;
+    text-align: center;
+    background: rgba(0,245,212,0.03);
+    border: 1px solid rgba(0,245,212,0.08);
+    border-radius: 8px;
+    padding: 12px 8px;
     margin: 0;
-    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }}
 </style>
 <div class="card">
   <div class="step-header">{num} — <span class="flap" id="lbl-{num}"></span></div>
   <div class="desc">{description}</div>
-  <div class="ascii-wrap"><pre class="ascii">{ascii_art.strip()}</pre></div>
+  <pre class="ascii">{ascii_art.strip()}</pre>
 </div>
 <script>
 const CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@!%&';
