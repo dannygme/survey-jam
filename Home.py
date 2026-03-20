@@ -62,7 +62,7 @@ Negative ████       17%
 └─────────────────┘
 """
 
-CARD_HEIGHT = 420
+ARD_HEIGHT = 420
 
 def card_html(num, word, delay_ms, description, ascii_art):
     escaped = ascii_art.replace("\\", "\\\\").replace("`", "\\`")
@@ -95,7 +95,7 @@ def card_html(num, word, delay_ms, description, ascii_art):
   }}
   .desc {{
     font-family: 'Inter', sans-serif;
-    font-size: 0.88rem;
+    font-size: 1rem;
     color: #94a3b8;
     line-height: 1.6;
     margin-bottom: 12px;
