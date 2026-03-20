@@ -1,3 +1,4 @@
+
 """
 Home.py
 -------
@@ -20,6 +21,51 @@ st.set_page_config(
 )
 
 apply_global_styles()
+
+# ── Title with rolodex effect ─────────────────────────────────────────────────
+components.html("""
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:transparent; }
+  .title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 1.5rem 0 0.5rem 0;
+  }
+  .flap-char { display: inline-block; }
+</style>
+<div class="title" id="title"></div>
+<script>
+const CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@!%&';
+const word='SURVEY JAM';
+let it=0;
+const total=10*word.length;
+const iv=setInterval(()=>{
+  document.getElementById('title').innerHTML=word.split('').map((c,i)=>{
+    if(c===' ') return '&nbsp;';
+    if(it>i*10) return c==='&nbsp;'?'&nbsp;':c;
+    return '<span style="color:#00f5d4;opacity:0.6">'+CHARS[Math.floor(Math.random()*CHARS.length)]+'</span>';
+  }).join('');
+  it++;
+  if(it>total){
+    clearInterval(iv);
+    document.getElementById('title').innerHTML=word.replace(/ /g,'&nbsp;');
+  }
+},40);
+</script>
+""", height=90)
+
+st.markdown(
+    "<div style='text-align:center; color:#475569; font-size:0.95rem; "
+    "letter-spacing:0.04em; margin-bottom:1rem;'>"
+    "Build, share, and analyze surveys — your data stays yours."
+    "</div>",
+    unsafe_allow_html=True
+)
 
 st.divider()
 
