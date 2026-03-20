@@ -67,68 +67,109 @@ CHART = """\
                         
 """
 
-FLAP_CSS = """
+CARD_HEIGHT = 420
+
+def card_html(num, word, delay_ms, description, ascii_art):
+    escaped = ascii_art.replace("\\", "\\\\").replace("`", "\\`")
+    return f"""
 <style>
-  body { margin:0; background:transparent; }
-  .step-header {
+  body {{ margin:0; background:transparent; }}
+  .card {{
+    display: flex;
+    flex-direction: column;
+    height: {CARD_HEIGHT}px;
+  }}
+  .step-header {{
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 1.05rem;
     font-weight: 600;
     color: #00f5d4;
     letter-spacing: 0.04em;
-    margin-bottom: 6px;
-  }
-  .flap {
-    display: inline-block;
+    margin-bottom: 8px;
+  }}
+  .flap {{
     font-family: 'Inter', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: #e2e8f0;
-  }
+  }}
+  .desc {{
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }}
+  .ascii {{
+    flex-grow: 1;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: #00f5d4;
+    white-space: pre;
+    text-align: center;
+    background: rgba(0,245,212,0.03);
+    border: 1px solid rgba(0,245,212,0.08);
+    border-radius: 8px;
+    padding: 12px 8px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }}
 </style>
-"""
-
-def flap_html(num, word, delay_ms):
-    return f"""
-{FLAP_CSS}
-<div class="step-header">{num} — <span class="flap" id="lbl"></span></div>
+<div class="card">
+  <div class="step-header">{num} — <span class="flap" id="lbl-{num}"></span></div>
+  <div class="desc">{description}</div>
+  <pre class="ascii">{ascii_art.strip()}</pre>
+</div>
 <script>
 const CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@!%&';
 const word='{word}';
 let it=0;
 const total=10*word.length;
 setTimeout(()=>{{
+  const el=document.getElementById('lbl-{num}');
   const iv=setInterval(()=>{{
-    document.getElementById('lbl').innerHTML=word.split('').map((c,i)=>{{
+    el.innerHTML=word.split('').map((c,i)=>{{
       if(it>i*10) return c;
       return '<span style="color:#00f5d4;opacity:0.5">'+CHARS[Math.floor(Math.random()*CHARS.length)]+'</span>';
     }}).join('');
     it++;
-    if(it>total){{ clearInterval(iv); document.getElementById('lbl').innerText=word; }}
+    if(it>total){{ clearInterval(iv); el.innerText=word; }}
   }},40);
 }},{delay_ms});
 </script>
 """
 
 with col1:
-    components.html(flap_html("01", "BUILD", 0), height=36)
-    st.markdown("Design your survey. Add Likert or open-ended questions. Customize scale labels. Download as CSV or JSON to send to respondents.")
-    st.code(HAMMER, language=None)
+    components.html(
+        card_html("01", "BUILD", 0,
+            "Design your survey. Add Likert or open-ended questions. Customize scale labels. Download as CSV or JSON to send to respondents.",
+            HAMMER),
+        height=CARD_HEIGHT + 10
+    )
     if st.button("Go to Build →", key="nav_build", use_container_width=True):
         st.switch_page("pages/1_Build.py")
 
 with col2:
-    components.html(flap_html("02", "SHARE", 350), height=36)
-    st.markdown("Send the downloaded file to respondents via email, Slack, or any channel. They fill it in and send it back. No app access needed.")
-    st.code(DOCUMENT, language=None)
+    components.html(
+        card_html("02", "SHARE", 350,
+            "Send the downloaded file to respondents via email, Slack, or any channel. They fill it in and send it back. No app access needed.",
+            DOCUMENT),
+        height=CARD_HEIGHT + 10
+    )
     st.markdown("<div style='height:38px'></div>", unsafe_allow_html=True)
 
 with col3:
-    components.html(flap_html("03", "ANALYZE", 700), height=36)
-    st.markdown("Upload response CSVs to see score distributions, sentiment breakdowns, and extracted themes. Works with any compatible survey CSV.")
-    st.code(CHART, language=None)
+    components.html(
+        card_html("03", "ANALYZE", 700,
+            "Upload response CSVs to see score distributions, sentiment breakdowns, and extracted themes. Works with any compatible survey CSV.",
+            CHART),
+        height=CARD_HEIGHT + 10
+    )
     if st.button("Go to Analyze →", key="nav_analyze", use_container_width=True):
         st.switch_page("pages/3_Analyze.py")
 
