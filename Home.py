@@ -62,7 +62,7 @@ Negative ████       17%
 └─────────────────┘
 """
 
-ARD_HEIGHT = 420
+CARD_HEIGHT = 420
 
 def card_html(num, word, delay_ms, description, ascii_art):
     escaped = ascii_art.replace("\\", "\\\\").replace("`", "\\`")
