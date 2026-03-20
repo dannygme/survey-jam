@@ -50,12 +50,6 @@ def _move(idx, direction):
 
 
 def _build_respondent_csv(cfg: dict) -> str:
-    """
-    Build a clean CSV for respondents to fill in.
-    Likert questions get a column with scale options noted.
-    Free-text questions get a blank column.
-    One blank row is included for each respondent to fill in.
-    """
     output = io.StringIO()
     scale = cfg["likert_scale"]["labels"]
     scale_note = "/".join(f"{k}={v}" for k, v in sorted(scale.items()))
@@ -67,22 +61,13 @@ def _build_respondent_csv(cfg: dict) -> str:
         else:
             headers.append(f"Q{q['number']}. {q['text']} [open answer]")
 
-<<<<<<< HEAD
     writer = csv.writer(output)
     writer.writerow(headers)
-    writer.writerow(["your_name_or_id", datetime.now(tz=timezone.utc).isoformat()] + [""] * len(cfg["questions"]))
+    writer.writerow(
+        ["your_name_or_id", datetime.now(tz=timezone.utc).isoformat()]
+        + [""] * len(cfg["questions"])
+    )
     return output.getvalue()
-=======
-def _get_app_base_url() -> str:
-    try:
-        ctx = st.context
-        headers = ctx.headers if hasattr(ctx, "headers") else {}
-        host = headers.get("host", "localhost:8501")
-        proto = "https" if "streamlit.app" in host else "http"
-        return f"{proto}://{host}/Respond"
-    except Exception:
-        return "http://localhost:8501/Respond"
->>>>>>> 8f2a0c7bedd337044b7118e2572924637b376f5d
 
 
 _ensure_ids()
@@ -235,7 +220,6 @@ with col_right:
     if not cfg["questions"]:
         st.info("Add at least one question to download.")
     else:
-<<<<<<< HEAD
         cfg_copy = dict(cfg)
         cfg_copy["created_at"] = datetime.now(tz=timezone.utc).isoformat()
 
@@ -256,15 +240,6 @@ with col_right:
             mime="application/json",
             use_container_width=True,
             help="Use this to reimport or share the survey structure.",
-=======
-        cfg_param = _config_to_url_param(cfg)
-        base = _get_app_base_url()
-        share_url = f"{base}?survey={cfg_param}"
-        st.text_area(
-            "Copy this link and send it to respondents",
-            value=share_url,
-            height=100,
->>>>>>> 8f2a0c7bedd337044b7118e2572924637b376f5d
         )
         st.caption(
             "Send the CSV to respondents to fill in and return. "
@@ -281,10 +256,5 @@ with col_right:
         file_name="survey_session.json",
         mime="application/json",
         use_container_width=True,
-<<<<<<< HEAD
         help="Save this to resume editing later.",
     )
-=======
-    )
-    st.caption("* = required question")
->>>>>>> 8f2a0c7bedd337044b7118e2572924637b376f5d
